@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpensesTracker", "ExpensesTracker\ExpensesTracker.csproj", "{5D303071-2E7A-4432-95F3-550CBB5E369D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{2CF3C138-2564-487C-8037-865C3F817416}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D303071-2E7A-4432-95F3-550CBB5E369D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D303071-2E7A-4432-95F3-550CBB5E369D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D303071-2E7A-4432-95F3-550CBB5E369D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D303071-2E7A-4432-95F3-550CBB5E369D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF3C138-2564-487C-8037-865C3F817416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF3C138-2564-487C-8037-865C3F817416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF3C138-2564-487C-8037-865C3F817416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF3C138-2564-487C-8037-865C3F817416}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4E11206-9DC1-46C6-84F4-3399A2AE0106}
+	EndGlobalSection
+EndGlobal

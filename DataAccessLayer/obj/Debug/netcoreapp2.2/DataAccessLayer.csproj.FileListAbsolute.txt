@@ -1,0 +1,11 @@
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\bin\Debug\netcoreapp2.2\DataAccessLayer.deps.json
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\bin\Debug\netcoreapp2.2\DataAccessLayer.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\obj\Debug\netcoreapp2.2\DataAccessLayer.csprojAssemblyReference.cache
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\obj\Debug\netcoreapp2.2\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\obj\Debug\netcoreapp2.2\DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\obj\Debug\netcoreapp2.2\DataAccessLayer.AssemblyInfo.cs
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\bin\Debug\netcoreapp2.2\DataAccessLayer.runtimeconfig.json
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\bin\Debug\netcoreapp2.2\DataAccessLayer.runtimeconfig.dev.json
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\bin\Debug\netcoreapp2.2\DataAccessLayer.pdb
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\obj\Debug\netcoreapp2.2\DataAccessLayer.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\DataAccessLayer\obj\Debug\netcoreapp2.2\DataAccessLayer.pdb
