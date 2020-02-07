@@ -2,6 +2,13 @@ C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\n
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\ExpensesTracker.runtimeconfig.json
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\ExpensesTracker.runtimeconfig.dev.json
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\ExpensesTracker.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\ExpensesTracker.pdb
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\BusinessLayer.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\DataAccessLayer.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\SharedDTO.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\BusinessLayer.pdb
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\DataAccessLayer.pdb
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\SharedDTO.pdb
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.csprojAssemblyReference.cache
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.csproj.CoreCompileInputs.cache
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.RazorAssemblyInfo.cache
@@ -9,9 +16,6 @@ C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\n
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.AssemblyInfoInputs.cache
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.AssemblyInfo.cs
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.RazorTargetAssemblyInfo.cache
-C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\ExpensesTracker.pdb
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.csproj.CopyComplete
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.dll
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.pdb
-C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\DataAccessLayer.dll
-C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\bin\Debug\netcoreapp2.2\DataAccessLayer.pdb
-C:\Users\tanishkadahiya\source\repos\ExpensesTracker\ExpensesTracker\obj\Debug\netcoreapp2.2\ExpensesTracker.csproj.CopyComplete

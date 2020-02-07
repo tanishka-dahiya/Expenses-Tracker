@@ -1,0 +1,11 @@
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\bin\Debug\netcoreapp2.2\DataAccessLayer.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\bin\Debug\netcoreapp2.2\SharedDTO.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\bin\Debug\netcoreapp2.2\DataAccessLayer.pdb
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\obj\Debug\netcoreapp2.2\BusinessLogicLayer.csprojAssemblyReference.cache
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\obj\Debug\netcoreapp2.2\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\obj\Debug\netcoreapp2.2\BusinessLogicLayer.AssemblyInfoInputs.cache
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\obj\Debug\netcoreapp2.2\BusinessLogicLayer.AssemblyInfo.cs
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\bin\Debug\netcoreapp2.2\BusinessLogicLayer.deps.json
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\bin\Debug\netcoreapp2.2\BusinessLogicLayer.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\bin\Debug\netcoreapp2.2\SharedDTO.pdb
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\BusinessLogicLayer\obj\Debug\netcoreapp2.2\BusinessLogicLayer.csproj.CopyComplete
