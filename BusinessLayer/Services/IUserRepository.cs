@@ -11,6 +11,6 @@ namespace BusinessLayer.Services
     {
         Task<UserModel> CreatedUserAsync(UserModel user);
         Task<string> AuthenticateUserAsync(string username, string password);
-       Task<Boolean> DeleteUserAsync(Guid userId);
+        Task<Boolean> DeleteUserAsync(Guid userId);
     }
 }

@@ -12,6 +12,7 @@ using SharedDTO.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -115,7 +116,14 @@ namespace DataAccessLayer.Repository
             {
                     return false;
             }
+
+            List<Expense> expensesItemList = _context.Expenses.Where(a => a.UserId == userId).ToList();
             _context.Users.Remove(authenticatedUser);
+            foreach(Expense item in expensesItemList)
+            {
+                _context.Expenses.Remove(item);
+            }
+           
             await _context.SaveChangesAsync();
 
             return true;
