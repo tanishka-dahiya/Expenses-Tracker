@@ -18,43 +18,42 @@ namespace BusinessLayer.Repository
             this.expensesDataLayerLogic = expensesDataLayerLogic ?? throw new ArgumentNullException(nameof(expensesDataLayerLogic));
         }
 
-
+        //get all expenses of a user
         public async Task<List<ExpensesModel>> GetExpensesAsync(Guid userId)
         {
             return await expensesDataLayerLogic.GetExpensesAsync(userId);
         }
 
+        //create expense of a user
         public async Task<ExpensesModel> CreateExpenseAsync(ExpensesModel newExpense)
         {
             return await expensesDataLayerLogic.CreateExpenseAsync(newExpense);
         }
-
+        
+        //get expense by its id
         public async Task<ExpensesModel> GetExpenseByIdAsync(Guid expenseId, Guid userId)
         {
             return await expensesDataLayerLogic.GetExpenseByIdAsync(expenseId, userId);
         }
 
+        //delete a expense
         public async Task<Boolean> DeleteExpenseByIdAsync(Guid expenseId, Guid userId)
         {
             return await expensesDataLayerLogic.DeleteExpenseByIdAsync(expenseId, userId);
         }
 
-        public async Task<ExpensesModel> EditExpenseByIdAsync(Guid expenseId, ExpensesModel item)
+        //edit a expense
+        public async Task<ExpensesModel> EditExpenseByIdAsync( ExpensesModel item)
         {
-            return await expensesDataLayerLogic.EditExpenseByIdAsync(expenseId, item);
+            return await expensesDataLayerLogic.EditExpenseByIdAsync( item);
         }
 
-
+        //get total amount on expenses of a user
         public float GetExpensesAmountAsync(Guid userId)
         {
             return  expensesDataLayerLogic.GetExpensesAmountAsync(userId);
         }
 
-        
-
-
-
-
-
+      
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.Services;
@@ -16,86 +17,60 @@ namespace ExpensesTracker.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IUserRepository userBusinessLogic;
 
-
-        private readonly IUserRepository UserBusinessLogic;
-
-
-
-        public UserController(IUserRepository UserBusinessLogic)
+        public UserController(IUserRepository userBusinessLogic)
         {
-            this.UserBusinessLogic = UserBusinessLogic?? throw new ArgumentNullException(nameof(UserBusinessLogic));
+            this.userBusinessLogic = userBusinessLogic?? throw new ArgumentNullException(nameof(userBusinessLogic));
         }
-
-
-
+        
         // Create User-----> POST: api/User
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserModel user)
         {
             try
             {
-                if (user == null)
-                {
-                    return BadRequest("Enter valid User");
-                }
-                UserModel createdUser = await UserBusinessLogic.CreatedUserAsync(user);
+                UserModel createdUser = await userBusinessLogic.CreatedUserAsync(user);
 
                 return Created("Successfully Created",createdUser.Token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound("Internal Server Error");
+                return NotFound();
             }
 
         }
-
-
-        // Delete User-----> Delete: api/User
+        
+        // Delete User-----> DELETE: api/User
         [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteUser()
         {
             try
             {
-               Guid userId= Guid.Parse(this.User.FindFirst(ClaimTypes.Name).Value);
-               Boolean isDeleted = await UserBusinessLogic.DeleteUserAsync(userId);
-                if (!isDeleted)
-                {
-                    return NotFound("User Not Found");
-                }
+                Guid userId= Guid.Parse(this.User.FindFirst(ClaimTypes.Name).Value);
+                await userBusinessLogic.DeleteUserAsync(userId);
                 return Ok("Successfully Deleted");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound("Internal Server Error");
+                return NotFound();
             }
 
         }
 
-
-
-        // Authenticate User-----> Get: api/User/authenticate
+        // Authenticate User with username and password-----> GET: api/User/authenticate
         [HttpGet("authenticate")]
         public async Task<IActionResult> AuthenticateUser(string userName, string password)
         {
             try
             {
-                if (userName == null || password == null)
-                {
-
-                    return BadRequest("Enter valid Credentials");
-                }
-                var token = await UserBusinessLogic.AuthenticateUserAsync(userName, password);
-                if (token == null)
-                {
-                    return BadRequest("Enter valid Credentials");
-                }
+                string token = await userBusinessLogic.AuthenticateUserAsync(userName, password);
                 return Ok(token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound("Internal Server Error");
+                return Unauthorized();
             }
 
         }

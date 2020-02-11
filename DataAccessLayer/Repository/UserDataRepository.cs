@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -25,13 +27,14 @@ namespace DataAccessLayer.Repository
         private readonly ExpensesContext _context;
         private readonly IMapper _mapper;
         private readonly AppSetting _appSettings;
+        private readonly IExpensesDataRepository _expesesDataRepository;
 
-        public UserDataRepository(ExpensesContext context, IMapper mapper, IOptions<AppSetting> appSettings)
+        public UserDataRepository(ExpensesContext context, IMapper mapper, IOptions<AppSetting> appSettings, IExpensesDataRepository expesesDataREpository)
         {
             this._context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper;
             _appSettings = appSettings.Value;
-
+            _expesesDataRepository = expesesDataREpository;
         }
 
 
@@ -39,10 +42,8 @@ namespace DataAccessLayer.Repository
         public async Task<UserModel> CreatedUserAsync(UserModel user)
         {
             user.Password =  GenerateHashedPassword(user.Password);
-            
             User createdUser = _mapper.Map<User>(user);
-            
-            _context.Users.Add(createdUser);
+             _context.Users.Add(createdUser);
             await _context.SaveChangesAsync();
             UserModel savedUser = _mapper.Map<UserModel>(createdUser);
             savedUser.Password = null;
@@ -51,8 +52,7 @@ namespace DataAccessLayer.Repository
             return savedUser;
 
         }
-
-
+        
         //create Hashed password
         public  string GenerateHashedPassword(string password)
         {
@@ -70,8 +70,7 @@ namespace DataAccessLayer.Repository
 
         }
 
-
-        //Generate Token
+          //Generate Token
         public string GenerateToken(Guid userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -100,7 +99,7 @@ namespace DataAccessLayer.Repository
             User authenticatedUser = await _context.Users.FirstOrDefaultAsync(a => a.UserName == username && a.Password == password);
             if (authenticatedUser == null)
             {
-                return null;
+                throw new UnauthorizedAccessException();
             }
            var token= GenerateToken(authenticatedUser.UserId);
             return token;
@@ -112,19 +111,11 @@ namespace DataAccessLayer.Repository
         public async Task<Boolean> DeleteUserAsync(Guid userId)
         {
             User authenticatedUser = await _context.Users.FindAsync(userId);
-            if (authenticatedUser == null)
-            {
-                    return false;
-            }
-
-            List<Expense> expensesItemList = _context.Expenses.Where(a => a.UserId == userId).ToList();
-            _context.Users.Remove(authenticatedUser);
-            foreach(Expense item in expensesItemList)
-            {
-                _context.Expenses.Remove(item);
-            }
            
+            _context.Users.Remove(authenticatedUser);
             await _context.SaveChangesAsync();
+            _expesesDataRepository.DeleteAllExpensesOfUser(userId);
+           
 
             return true;
             

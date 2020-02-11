@@ -17,7 +17,6 @@ namespace DataAccessLayer.Repository
         private readonly ExpensesContext _context;
         private readonly IMapper _mapper;
 
-
         public ExpensesDataRepository(ExpensesContext context, IMapper mapper)
         {
             this._context = context ?? throw new ArgumentNullException(nameof(context));
@@ -25,64 +24,29 @@ namespace DataAccessLayer.Repository
 
         }
 
-
-        public async Task<User> IsUserExists(Guid userId)
-        {
-            User userExists = await _context.Users.FindAsync(userId);
-            if (userExists == null)
-            {
-                return null;
-            }
-            return userExists;
-
-        }
-
-
+        //return all expenses list of a user
         public async Task<List<ExpensesModel>> GetExpensesAsync(Guid userId)
         {
-            try
-            {
-                if (IsUserExists(userId) == null)
-                {
-                    return null;
-                }
-                var expensesList = await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
+            var expensesList = await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
+            return _mapper.Map<List<ExpensesModel>>(expensesList);
 
-                return _mapper.Map<List<ExpensesModel>>(expensesList);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
         }
 
+        //create new expense
         public async Task<ExpensesModel> CreateExpenseAsync(ExpensesModel newExpense)
         {
-            if (IsUserExists(newExpense.UserId) == null)
-            {
-                return null;
-            }
             Expense createdExpese = _mapper.Map<Expense>(newExpense);
-
             _context.Expenses.Add(createdExpese);
             await _context.SaveChangesAsync();
             ExpensesModel savedExpense = _mapper.Map<ExpensesModel>(createdExpese);
-
-
             return savedExpense;
 
         }
 
-
+        //return expense by its id
         public async Task<ExpensesModel> GetExpenseByIdAsync(Guid expenseId, Guid userId)
         {
-            if (IsUserExists(userId) == null)
-            {
-                return null;
-            }
-
             Expense expensesItem = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
-
             ExpensesModel Item = _mapper.Map<ExpensesModel>(expensesItem);
 
             return Item;
@@ -90,14 +54,9 @@ namespace DataAccessLayer.Repository
 
         }
 
-
-
+        //delete a expense
         public async Task<Boolean> DeleteExpenseByIdAsync(Guid expenseId, Guid userId)
         {
-            if (IsUserExists(userId) == null)
-            {
-                return false;
-            }
             Expense item = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
             _context.Expenses.Remove(item);
             await _context.SaveChangesAsync();
@@ -106,26 +65,20 @@ namespace DataAccessLayer.Repository
 
         }
 
-        public async Task<ExpensesModel> EditExpenseByIdAsync(Guid expenseId, ExpensesModel item)
+        //edit a expense
+        public async Task<ExpensesModel> EditExpenseByIdAsync(ExpensesModel item)
         {
-            if (IsUserExists(item.UserId) == null || expenseId != item.ExpensesId)
-            {
-                return null;
-            }
-            _context.Entry(item).State = EntityState.Modified;
+            Expense expenseItem = _mapper.Map<Expense>(item);
+            _context.Entry(expenseItem).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return item;
 
 
         }
 
-
+        //return overall amount of expenses of a user
         public float GetExpensesAmountAsync(Guid userId)
         {
-            if (IsUserExists(userId) == null)
-            {
-                return -1;
-            }
             float expensesAmount = _context.Expenses.Where(s => s.UserId == userId).Sum(i => i.Price);
 
             return expensesAmount;
@@ -133,20 +86,19 @@ namespace DataAccessLayer.Repository
         }
 
 
+        //delete all expenses of a user
+        public async void DeleteAllExpensesOfUser(Guid userId)
+        {
+            List<Expense> expensesItemList = _context.Expenses.Where(a => a.UserId == userId).ToList();
+            foreach (Expense item in expensesItemList)
+            {
+                _context.Expenses.Remove(item);
 
+            }
+            await _context.SaveChangesAsync();
+            return;
 
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
 
     }

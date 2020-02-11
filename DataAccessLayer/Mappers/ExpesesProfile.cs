@@ -8,12 +8,13 @@ using System.Text;
 namespace DataAccessLayer.Mappers
 {
       public class ExpesesProfile : Profile
+      {
+        public ExpesesProfile()
         {
-            public ExpesesProfile()
-            {
-
-                CreateMap<ExpensesModel, Expense>();
             CreateMap<Expense, ExpensesModel>();
+            CreateMap<ExpensesModel, Expense>();
+
+
         }
       }
     
