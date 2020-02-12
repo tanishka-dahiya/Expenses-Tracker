@@ -12,6 +12,6 @@ namespace DataAccessLayer.Services
         Task<UserModel> CreatedUserAsync(UserModel user);
         Task<string> AuthenticateUserAsync(string username, string password);
         Task<Boolean> DeleteUserAsync(Guid userId);
-       // Task IsUserValid(Guid userId);
+       
     }
 }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.Services;
+using ExpensesTracker.ApiErrors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,11 +33,11 @@ namespace ExpensesTracker.Controllers
             {
                 UserModel createdUser = await userBusinessLogic.CreatedUserAsync(user);
 
-                return Created("Successfully Created",createdUser.Token);
+                return Created("Successfully Created", createdUser.Token);
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return ReturnErrorCode(ex.Message);
             }
 
         }
@@ -54,7 +55,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return ReturnErrorCode(ex.Message);
             }
 
         }
@@ -70,8 +71,21 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return Unauthorized();
+               return  ReturnErrorCode(ex.Message);
+               
             }
+
+        }
+
+        //return error
+        public IActionResult ReturnErrorCode(string errorMessgae)
+        {
+            if (errorMessgae == "Not found")
+            {
+                return NotFound(new NotFoundError(errorMessgae));
+                
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerError(errorMessgae));
 
         }
 

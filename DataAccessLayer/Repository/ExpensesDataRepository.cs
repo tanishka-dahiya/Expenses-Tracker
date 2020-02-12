@@ -12,16 +12,17 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repository
 {
-    public class ExpensesDataRepository : IExpensesDataRepository
+    public class ExpensesDataRepository : IExpensesDataRepository 
     {
         private readonly ExpensesContext _context;
         private readonly IMapper _mapper;
+        
 
         public ExpensesDataRepository(ExpensesContext context, IMapper mapper)
         {
             this._context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper;
-
+          
         }
 
         //return all expenses list of a user
@@ -29,6 +30,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
+               await IsUserValid(userId);
                 var expensesList = await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
                 return _mapper.Map<List<ExpensesModel>>(expensesList);
             }
@@ -44,6 +46,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
+                await IsUserValid(newExpense.UserId);
                 Expense createdExpese = _mapper.Map<Expense>(newExpense);
                 _context.Expenses.Add(createdExpese);
                 await _context.SaveChangesAsync();
@@ -62,6 +65,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
+               await IsUserValid(userId);
                 Expense expensesItem = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
                 ExpensesModel Item = _mapper.Map<ExpensesModel>(expensesItem);
 
@@ -80,8 +84,9 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-                Expense item = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
-                _context.Expenses.Remove(item);
+               await IsUserValid(userId);
+               Expense item = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
+               _context.Expenses.Remove(item);
                 await _context.SaveChangesAsync();
 
                 return true;
@@ -98,6 +103,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
+                await IsUserValid(item.UserId);
                 Expense expenseItem = _mapper.Map<Expense>(item);
                 _context.Entry(expenseItem).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
@@ -133,6 +139,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
+
                 List<Expense> expensesItemList = _context.Expenses.Where(a => a.UserId == userId).ToList();
                 foreach (Expense item in expensesItemList)
                 {
@@ -148,6 +155,26 @@ namespace DataAccessLayer.Repository
             }
 
         }
+            //If user exists
+            private async Task IsUserValid(Guid userId)
+            {
+                try
+                {
+                    User authenticatedUser = await _context.Users.FindAsync(userId);
+
+                    if (authenticatedUser == null)
+                    {
+                        throw new Exception("Not found");
+                    }
+                    return;
+                }
+                catch (Exception ex)
+                {
+                throw ex;
+                }
+
+            }
+        
 
 
     }

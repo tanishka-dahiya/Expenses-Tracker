@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.Services;
+using ExpensesTracker.ApiErrors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +34,9 @@ namespace ExpensesTracker.Controllers
                 IEnumerable<ExpensesModel> expensesList= await expensesBusinessLogic.GetExpensesAsync(userId);
                 return Ok(expensesList);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound();
+                return ReturnErrorCode(ex.Message);
             }
         }
 
@@ -51,9 +52,9 @@ namespace ExpensesTracker.Controllers
 
                 return CreatedAtAction("GetExpenseById", new { expenseId = createdExpense.ExpensesId }, createdExpense);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound();
+                return ReturnErrorCode(ex.Message);
             }
         }
 
@@ -67,9 +68,9 @@ namespace ExpensesTracker.Controllers
                 ExpensesModel expenseItem = await expensesBusinessLogic.GetExpenseByIdAsync(expenseId, userId);
                 return Ok(expenseItem);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Unauthorized();
+                return ReturnErrorCode(ex.Message);
             }
         }
 
@@ -83,9 +84,9 @@ namespace ExpensesTracker.Controllers
                 Boolean isDeleted = await expensesBusinessLogic.DeleteExpenseByIdAsync(expenseId, userId);
                 return Ok("Successfully Deleted");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Unauthorized();
+                return ReturnErrorCode(ex.Message);
             }
         }
 
@@ -100,9 +101,9 @@ namespace ExpensesTracker.Controllers
                 ExpensesModel expenseItem = await expensesBusinessLogic.EditExpenseByIdAsync( item);
                 return Ok(expenseItem);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Unauthorized();
+                return ReturnErrorCode(ex.Message);
             }
         }
 
@@ -116,10 +117,21 @@ namespace ExpensesTracker.Controllers
                 var amount =  expensesBusinessLogic.GetExpensesAmountAsync( userId);
                 return Ok(amount);
             }
-            catch (Exception ex)
+            catch (Exception ex )
             {
-                return NotFound();
+                return ReturnErrorCode(ex.Message);
             }
+        }
+
+        public IActionResult ReturnErrorCode(string errorMessgae)
+        {
+            if (errorMessgae == "Not found")
+            {
+                return NotFound(new NotFoundError(errorMessgae));
+
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerError(errorMessgae));
+
         }
 
 

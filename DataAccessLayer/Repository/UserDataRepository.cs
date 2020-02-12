@@ -138,6 +138,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
+                 await IsUserValid(userId);
                 User authenticatedUser = await _context.Users.FindAsync(userId);
 
                 _context.Users.Remove(authenticatedUser);
@@ -154,5 +155,27 @@ namespace DataAccessLayer.Repository
 
 
         }
+
+
+        //If user exists
+        public async Task IsUserValid(Guid userId)
+        {
+            try
+            {
+                User authenticatedUser = await _context.Users.FindAsync(userId);
+
+                if (authenticatedUser == null)
+                {
+                    throw new Exception("Not found");
+                }
+                return;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
     }
 }
