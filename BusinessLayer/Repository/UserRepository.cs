@@ -11,35 +11,59 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Repository
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : IUserRepository
     {
 
         private readonly IUserDataRepository UserDataLayerLogic;
 
         public UserRepository(IUserDataRepository userDataLayerLogic)
         {
-            this.UserDataLayerLogic = userDataLayerLogic ?? throw new ArgumentNullException(nameof(userDataLayerLogic));
+            UserDataLayerLogic = userDataLayerLogic ?? throw new ArgumentNullException(nameof(userDataLayerLogic));
         }
-        
+
         //create a user
         public async Task<UserModel> CreatedUserAsync(UserModel user)
         {
-            return await UserDataLayerLogic.CreatedUserAsync(user);
+            try
+            {
+                return await UserDataLayerLogic.CreatedUserAsync(user);
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         //authenticate a user with username and password
         public async Task<string> AuthenticateUserAsync(string username, string password)
         {
-            return await UserDataLayerLogic.AuthenticateUserAsync(username, password);
+            try
+            {
+                return await UserDataLayerLogic.AuthenticateUserAsync(username, password);
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         //delete a user 
         public async Task<Boolean> DeleteUserAsync(Guid userId)
         {
-            return await UserDataLayerLogic.DeleteUserAsync(userId);
+            try
+            {
+                return await UserDataLayerLogic.DeleteUserAsync(userId);
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
-        
+
     }
 }

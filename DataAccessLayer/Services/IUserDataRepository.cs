@@ -10,9 +10,8 @@ namespace DataAccessLayer.Services
     public interface IUserDataRepository
     {
         Task<UserModel> CreatedUserAsync(UserModel user);
-        string GenerateHashedPassword(string Password);
-        string GenerateToken(Guid userId);
         Task<string> AuthenticateUserAsync(string username, string password);
         Task<Boolean> DeleteUserAsync(Guid userId);
+       // Task IsUserValid(Guid userId);
     }
 }

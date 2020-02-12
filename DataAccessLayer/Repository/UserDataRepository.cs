@@ -54,7 +54,7 @@ namespace DataAccessLayer.Repository
         }
         
         //create Hashed password
-        public  string GenerateHashedPassword(string password)
+        private  string GenerateHashedPassword(string password)
         {
             MD5 md5Hash = MD5.Create();
             byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
@@ -71,7 +71,7 @@ namespace DataAccessLayer.Repository
         }
 
           //Generate Token
-        public string GenerateToken(Guid userId)
+        private string GenerateToken(Guid userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);

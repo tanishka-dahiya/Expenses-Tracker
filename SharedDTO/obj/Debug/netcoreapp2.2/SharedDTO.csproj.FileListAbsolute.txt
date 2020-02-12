@@ -2,10 +2,10 @@ C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\bin\Debug\netcore
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\bin\Debug\netcoreapp2.2\SharedDTO.runtimeconfig.json
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\bin\Debug\netcoreapp2.2\SharedDTO.runtimeconfig.dev.json
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\bin\Debug\netcoreapp2.2\SharedDTO.dll
+C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\bin\Debug\netcoreapp2.2\SharedDTO.pdb
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\obj\Debug\netcoreapp2.2\SharedDTO.csprojAssemblyReference.cache
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\obj\Debug\netcoreapp2.2\SharedDTO.csproj.CoreCompileInputs.cache
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\obj\Debug\netcoreapp2.2\SharedDTO.AssemblyInfoInputs.cache
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\obj\Debug\netcoreapp2.2\SharedDTO.AssemblyInfo.cs
-C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\bin\Debug\netcoreapp2.2\SharedDTO.pdb
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\obj\Debug\netcoreapp2.2\SharedDTO.dll
 C:\Users\tanishkadahiya\source\repos\ExpensesTracker\SharedDTO\obj\Debug\netcoreapp2.2\SharedDTO.pdb
