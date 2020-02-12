@@ -41,31 +41,44 @@ namespace DataAccessLayer.Repository
         //create User
         public async Task<UserModel> CreatedUserAsync(UserModel user)
         {
-            user.Password =  GenerateHashedPassword(user.Password);
-            User createdUser = _mapper.Map<User>(user);
-             _context.Users.Add(createdUser);
-            await _context.SaveChangesAsync();
-            UserModel savedUser = _mapper.Map<UserModel>(createdUser);
-            savedUser.Password = null;
-            savedUser.Token = GenerateToken(createdUser.UserId);
-           
-            return savedUser;
+            try
+            {
+                user.Password = GenerateHashedPassword(user.Password);
+                User createdUser = _mapper.Map<User>(user);
+                _context.Users.Add(createdUser);
+                await _context.SaveChangesAsync();
+                UserModel savedUser = _mapper.Map<UserModel>(createdUser);
+                savedUser.Password = null;
+                savedUser.Token = GenerateToken(createdUser.UserId);
+
+                return savedUser;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
         
         //create Hashed password
         private  string GenerateHashedPassword(string password)
         {
-            MD5 md5Hash = MD5.Create();
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-            StringBuilder sBuilder = new StringBuilder();
-            for (int i = 0; i < data.Length; i++)
+            try
             {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-            return sBuilder.ToString();
+                MD5 md5Hash = MD5.Create();
+                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                return sBuilder.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
 
         }
@@ -73,20 +86,27 @@ namespace DataAccessLayer.Repository
           //Generate Token
         private string GenerateToken(Guid userId)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            try
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
                     new Claim(ClaimTypes.Name, userId.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(45),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            string Token = tokenHandler.WriteToken(token);
-            return Token; 
+                    }),
+                    Expires = DateTime.UtcNow.AddMinutes(45),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                string Token = tokenHandler.WriteToken(token);
+                return Token;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
@@ -95,14 +115,20 @@ namespace DataAccessLayer.Repository
         //Authenticate  User
         public async Task<string> AuthenticateUserAsync(string username, string password)
         {
-            password= GenerateHashedPassword(password);
+            try { 
+            password = GenerateHashedPassword(password);
             User authenticatedUser = await _context.Users.FirstOrDefaultAsync(a => a.UserName == username && a.Password == password);
             if (authenticatedUser == null)
             {
                 throw new UnauthorizedAccessException();
             }
-           var token= GenerateToken(authenticatedUser.UserId);
+            var token = GenerateToken(authenticatedUser.UserId);
             return token;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
@@ -110,16 +136,23 @@ namespace DataAccessLayer.Repository
         //Delete User
         public async Task<Boolean> DeleteUserAsync(Guid userId)
         {
-            User authenticatedUser = await _context.Users.FindAsync(userId);
-           
-            _context.Users.Remove(authenticatedUser);
-            await _context.SaveChangesAsync();
-            _expesesDataRepository.DeleteAllExpensesOfUser(userId);
-           
+            try
+            {
+                User authenticatedUser = await _context.Users.FindAsync(userId);
 
-            return true;
-            
-            
+                _context.Users.Remove(authenticatedUser);
+                await _context.SaveChangesAsync();
+                _expesesDataRepository.DeleteAllExpensesOfUser(userId);
+
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
         }
     }
 }
