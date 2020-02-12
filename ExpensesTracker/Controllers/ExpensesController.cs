@@ -109,12 +109,12 @@ namespace ExpensesTracker.Controllers
 
         // Get expenses Amount by id :----->GET/user/Expenses/amount
         [HttpGet("amount")]
-        public IActionResult GetExpensesAmount()
+        public  async Task<IActionResult> GetExpensesAmount()
         {
             try
             {
                 Guid userId = Guid.Parse(this.User.FindFirst(ClaimTypes.Name).Value);
-                var amount =  expensesBusinessLogic.GetExpensesAmountAsync( userId);
+                var amount =   await expensesBusinessLogic.GetExpensesAmountAsync( userId);
                 return Ok(amount);
             }
             catch (Exception ex )

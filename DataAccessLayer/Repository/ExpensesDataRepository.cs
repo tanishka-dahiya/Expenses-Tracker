@@ -67,6 +67,10 @@ namespace DataAccessLayer.Repository
             {
                await IsUserValid(userId);
                 Expense expensesItem = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
+                if (expensesItem == null)
+                {
+                    throw new Exception("Not found");
+                }
                 ExpensesModel Item = _mapper.Map<ExpensesModel>(expensesItem);
 
                 return Item;
@@ -86,6 +90,10 @@ namespace DataAccessLayer.Repository
             {
                await IsUserValid(userId);
                Expense item = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
+                if (item == null)
+                {
+                    throw new Exception("Not found");
+                }
                _context.Expenses.Remove(item);
                 await _context.SaveChangesAsync();
 
@@ -118,10 +126,11 @@ namespace DataAccessLayer.Repository
         }
 
         //return overall amount of expenses of a user
-        public float GetExpensesAmountAsync(Guid userId)
+        public async Task<float> GetExpensesAmountAsync(Guid userId)
         {
             try
             {
+                 await IsUserValid(userId);
                 float expensesAmount = _context.Expenses.Where(s => s.UserId == userId).Sum(i => i.Price);
 
                 return expensesAmount;
@@ -141,6 +150,10 @@ namespace DataAccessLayer.Repository
             {
 
                 List<Expense> expensesItemList = _context.Expenses.Where(a => a.UserId == userId).ToList();
+                if (expensesItemList == null)
+                {
+                    return;
+                }
                 foreach (Expense item in expensesItemList)
                 {
                     _context.Expenses.Remove(item);

@@ -120,8 +120,8 @@ namespace DataAccessLayer.Repository
             User authenticatedUser = await _context.Users.FirstOrDefaultAsync(a => a.UserName == username && a.Password == password);
             if (authenticatedUser == null)
             {
-                throw new UnauthorizedAccessException();
-            }
+                    throw new Exception("Not found");
+                }
             var token = GenerateToken(authenticatedUser.UserId);
             return token;
             }

@@ -89,7 +89,7 @@ namespace BusinessLayer.Repository
         }
 
         //get total amount on expenses of a user
-        public float GetExpensesAmountAsync(Guid userId)
+        public Task<float> GetExpensesAmountAsync(Guid userId)
         {
             try
             {
