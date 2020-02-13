@@ -14,6 +14,7 @@ namespace ExpensesTracker.Controllers
     public class ErrorController : ControllerBase
     {
             [Route("{code}")]
+            [HttpGet]
             public IActionResult Error(int code)
             {
                 HttpStatusCode parsedCode = (HttpStatusCode)code;

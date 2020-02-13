@@ -177,8 +177,9 @@ namespace DataAccessLayer.Repository
 
                     if (authenticatedUser == null)
                     {
-                        throw new Exception("Not found");
-                    }
+                    throw new Exception("Not found");
+                    
+                }
                     return;
                 }
                 catch (Exception ex)

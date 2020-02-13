@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.Services;
 using ExpensesTracker.ApiErrors;
+using ExpensesTracker.ExceptionHandler;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,12 @@ namespace ExpensesTracker.Controllers
     public class ExpensesController : ControllerBase
     {
         private readonly IExpensesRepository expensesBusinessLogic;
+        private readonly IExceptionHandler _exceptionHandler;
 
-        public ExpensesController(IExpensesRepository expensesBusinessLogic)
+        public ExpensesController(IExpensesRepository expensesBusinessLogic, IExceptionHandler exceptionHandler)
         {
             this.expensesBusinessLogic = expensesBusinessLogic ?? throw new ArgumentNullException(nameof(expensesBusinessLogic));
+            this._exceptionHandler = exceptionHandler;
         }
 
         // get all expenses of a user :----->GET: /user/Expenses
@@ -36,7 +39,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
         }
 
@@ -54,7 +57,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
         }
 
@@ -70,7 +73,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
         }
 
@@ -86,7 +89,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
         }
 
@@ -103,7 +106,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
         }
 
@@ -119,20 +122,11 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex )
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
         }
 
-        public IActionResult ReturnErrorCode(string errorMessgae)
-        {
-            if (errorMessgae == "Not found")
-            {
-                return NotFound(new NotFoundError(errorMessgae));
-
-            }
-            return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerError(errorMessgae));
-
-        }
+     
 
 
     }

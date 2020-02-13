@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.Services;
 using ExpensesTracker.ApiErrors;
+using ExpensesTracker.ExceptionHandler;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,14 @@ namespace ExpensesTracker.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository userBusinessLogic;
+        private readonly IExceptionHandler _exceptionHandler;
 
-        public UserController(IUserRepository userBusinessLogic)
+
+        public UserController(IUserRepository userBusinessLogic, IExceptionHandler exceptionHandler)
         {
             this.userBusinessLogic = userBusinessLogic?? throw new ArgumentNullException(nameof(userBusinessLogic));
+
+            this._exceptionHandler = exceptionHandler;
         }
         
         // Create User-----> POST: api/User
@@ -37,7 +42,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
 
         }
@@ -55,7 +60,7 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-                return ReturnErrorCode(ex.Message);
+                return _exceptionHandler.HandleError(ex.Message);
             }
 
         }
@@ -71,24 +76,11 @@ namespace ExpensesTracker.Controllers
             }
             catch (Exception ex)
             {
-               return  ReturnErrorCode(ex.Message);
-               
+                return _exceptionHandler.HandleError(ex.Message);
+
             }
 
         }
-
-        //return error
-        public IActionResult ReturnErrorCode(string errorMessgae)
-        {
-            if (errorMessgae == "Not found")
-            {
-                return NotFound(new NotFoundError(errorMessgae));
-                
-            }
-            return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerError(errorMessgae));
-
-        }
-
 
     }
 }

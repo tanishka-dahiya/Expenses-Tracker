@@ -9,6 +9,8 @@ using BusinessLayer.Services;
 using DataAccessLayer.Contexts;
 using DataAccessLayer.Repository;
 using DataAccessLayer.Services;
+using ExpensesTracker.ExceptionHandler;
+using ExpensesTracker.NewFolder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,6 +51,7 @@ namespace ExpensesTracker
             services.AddScoped<IExpensesDataRepository, ExpensesDataRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IExpensesRepository, ExpensesRepository>();
+            services.AddScoped<IExceptionHandler, ExceptionFilter>();
 
             //adding AutoMapper
             services.AddAutoMapper();

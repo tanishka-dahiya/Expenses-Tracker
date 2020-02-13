@@ -121,6 +121,7 @@ namespace DataAccessLayer.Repository
             if (authenticatedUser == null)
             {
                     throw new Exception("Not found");
+
                 }
             var token = GenerateToken(authenticatedUser.UserId);
             return token;
@@ -151,6 +152,7 @@ namespace DataAccessLayer.Repository
             catch (Exception ex)
             {
                 throw ex;
+               
             }
 
 
@@ -167,6 +169,7 @@ namespace DataAccessLayer.Repository
                 if (authenticatedUser == null)
                 {
                     throw new Exception("Not found");
+
                 }
                 return;
             }
