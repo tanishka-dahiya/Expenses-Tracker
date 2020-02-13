@@ -28,13 +28,17 @@ namespace DataAccessLayer.Repository
         private readonly IMapper _mapper;
         private readonly AppSetting _appSettings;
         private readonly IExpensesDataRepository _expesesDataRepository;
+        private readonly IUserValidationRepository _userValidationRepository;
 
-        public UserDataRepository(ExpensesContext context, IMapper mapper, IOptions<AppSetting> appSettings, IExpensesDataRepository expesesDataREpository)
+
+
+        public UserDataRepository(ExpensesContext context, IMapper mapper, IOptions<AppSetting> appSettings, IExpensesDataRepository expesesDataREpository, IUserValidationRepository userValidationRepository)
         {
             this._context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper;
             _appSettings = appSettings.Value;
             _expesesDataRepository = expesesDataREpository;
+            _userValidationRepository = userValidationRepository;
         }
 
 
@@ -139,7 +143,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-                 await IsUserValid(userId);
+                 await _userValidationRepository.IsUserValid(userId);
                 User authenticatedUser = await _context.Users.FindAsync(userId);
 
                 _context.Users.Remove(authenticatedUser);
@@ -159,26 +163,7 @@ namespace DataAccessLayer.Repository
         }
 
 
-        //If user exists
-        public async Task IsUserValid(Guid userId)
-        {
-            try
-            {
-                User authenticatedUser = await _context.Users.FindAsync(userId);
-
-                if (authenticatedUser == null)
-                {
-                    throw new Exception("Not found");
-
-                }
-                return;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
+       
 
     }
 }

@@ -16,13 +16,17 @@ namespace DataAccessLayer.Repository
     {
         private readonly ExpensesContext _context;
         private readonly IMapper _mapper;
-        
+        private readonly IUserValidationRepository _userValidationRepository;
 
-        public ExpensesDataRepository(ExpensesContext context, IMapper mapper)
+
+
+        public ExpensesDataRepository(ExpensesContext context, IMapper mapper, IUserValidationRepository userValidationRepository)
         {
             this._context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper;
-          
+            _userValidationRepository = userValidationRepository;
+
+
         }
 
         //return all expenses list of a user
@@ -30,7 +34,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-               await IsUserValid(userId);
+               await _userValidationRepository.IsUserValid(userId);
                 var expensesList = await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
                 return _mapper.Map<List<ExpensesModel>>(expensesList);
             }
@@ -46,7 +50,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-                await IsUserValid(newExpense.UserId);
+                await _userValidationRepository.IsUserValid(newExpense.UserId);
                 Expense createdExpese = _mapper.Map<Expense>(newExpense);
                 _context.Expenses.Add(createdExpese);
                 await _context.SaveChangesAsync();
@@ -65,7 +69,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-               await IsUserValid(userId);
+               await _userValidationRepository.IsUserValid(userId);
                 Expense expensesItem = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
                 if (expensesItem == null)
                 {
@@ -88,7 +92,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-               await IsUserValid(userId);
+               await _userValidationRepository.IsUserValid(userId);
                Expense item = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
                 if (item == null)
                 {
@@ -111,7 +115,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-                await IsUserValid(item.UserId);
+                await _userValidationRepository.IsUserValid(item.UserId);
                 Expense expenseItem = _mapper.Map<Expense>(item);
                 _context.Entry(expenseItem).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
@@ -130,7 +134,7 @@ namespace DataAccessLayer.Repository
         {
             try
             {
-                 await IsUserValid(userId);
+                 await _userValidationRepository.IsUserValid(userId);
                 float expensesAmount = _context.Expenses.Where(s => s.UserId == userId).Sum(i => i.Price);
 
                 return expensesAmount;
@@ -168,27 +172,7 @@ namespace DataAccessLayer.Repository
             }
 
         }
-            //If user exists
-            private async Task IsUserValid(Guid userId)
-            {
-                try
-                {
-                    User authenticatedUser = await _context.Users.FindAsync(userId);
-
-                    if (authenticatedUser == null)
-                    {
-                    throw new Exception("Not found");
-                    
-                }
-                    return;
-                }
-                catch (Exception ex)
-                {
-                throw ex;
-                }
-
-            }
-        
+            
 
 
     }

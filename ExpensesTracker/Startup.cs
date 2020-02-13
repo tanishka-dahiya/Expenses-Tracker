@@ -52,6 +52,8 @@ namespace ExpensesTracker
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IExpensesRepository, ExpensesRepository>();
             services.AddScoped<IExceptionHandler, ExceptionFilter>();
+            services.AddScoped<IUserValidationRepository, UserValidationRepository>();
+
 
             //adding AutoMapper
             services.AddAutoMapper();
