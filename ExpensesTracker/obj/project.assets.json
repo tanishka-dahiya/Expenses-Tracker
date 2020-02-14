@@ -939,6 +939,9 @@
       "Microsoft.AspNetCore.Mvc.Analyzers/2.2.0": {
         "type": "package"
       },
+      "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.0": {
+        "type": "package"
+      },
       "Microsoft.AspNetCore.Mvc.ApiExplorer/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -4843,6 +4846,7 @@
         "dependencies": {
           "DataAccessLayer": "1.0.0",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.IdentityModel.Tokens": "5.2.4",
           "SharedDTO": "1.0.0",
           "Swashbuckle.AspNetCore": "5.0.0",
@@ -4861,6 +4865,7 @@
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "4.0.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.IdentityModel.Tokens": "5.2.4",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
@@ -4881,6 +4886,7 @@
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "4.0.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.IdentityModel.Tokens": "5.2.4",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
@@ -5630,6 +5636,18 @@
         "analyzers/dotnet/cs/Microsoft.AspNetCore.Mvc.Analyzers.dll",
         "microsoft.aspnetcore.mvc.analyzers.2.2.0.nupkg.sha512",
         "microsoft.aspnetcore.mvc.analyzers.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.0": {
+      "sha512": "Fa+7EZgrtEbGe7ERADStu9pyC6kF3ZolCXDUXvGAWBeJHjpMmONqkn/ApQSdnsL94ZFDoZRdg0Z3gMPTBtUkPQ==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.mvc.api.analyzers/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/Microsoft.AspNetCore.Mvc.Api.Analyzers.dll",
+        "microsoft.aspnetcore.mvc.api.analyzers.2.2.0.nupkg.sha512",
+        "microsoft.aspnetcore.mvc.api.analyzers.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Mvc.ApiExplorer/2.2.0": {
@@ -13340,6 +13358,7 @@
       "DataAccessLayer >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Cryptography.KeyDerivation >= 2.2.0",
+      "Microsoft.AspNetCore.Mvc.Api.Analyzers >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 2.2.2",
       "Microsoft.NETCore.App >= 2.2.0",
@@ -13406,6 +13425,10 @@
             "autoReferenced": true
           },
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
+            "target": "Package",
+            "version": "[2.2.0, )"
+          },
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": {
             "target": "Package",
             "version": "[2.2.0, )"
           },

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "fa7d5cc34d291c1972b83173d20c86a18896ad5f"
+    "signature": "78b0f23991f716324b695762df4058cc5f5377fa"
   },
   "compilationOptions": {},
   "targets": {
@@ -10,6 +10,7 @@
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "4.0.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.EntityFrameworkCore.Tools": "2.2.2",
           "Microsoft.IdentityModel.Tokens": "5.2.4",
@@ -326,6 +327,7 @@
           }
         }
       },
+      "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.0": {},
       "Microsoft.AspNetCore.Mvc.ApiExplorer/2.1.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.1.0"
@@ -2589,6 +2591,13 @@
       "sha512": "sha512-//7QpwjGmMpLBtM7cJS5xKroX4ZoePqbyL18EZtVmGan3EYvoWTs+BxFskB8SmK6KbLubGOSBbh/IfYp9bsUjA==",
       "path": "microsoft.aspnetcore.mvc.abstractions/2.1.0",
       "hashPath": "microsoft.aspnetcore.mvc.abstractions.2.1.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Fa+7EZgrtEbGe7ERADStu9pyC6kF3ZolCXDUXvGAWBeJHjpMmONqkn/ApQSdnsL94ZFDoZRdg0Z3gMPTBtUkPQ==",
+      "path": "microsoft.aspnetcore.mvc.api.analyzers/2.2.0",
+      "hashPath": "microsoft.aspnetcore.mvc.api.analyzers.2.2.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Mvc.ApiExplorer/2.1.0": {
       "type": "package",

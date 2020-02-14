@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using BusinessLayer.Repository;
 using BusinessLayer.Services;
@@ -14,15 +14,13 @@ using ExpensesTracker.NewFolder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SharedDTO.Helpers;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ExpensesTracker
 {
@@ -83,16 +81,21 @@ namespace ExpensesTracker
                 };
             });
 
-
-
             services.AddSwaggerGen(setupAction =>
             {
-                setupAction.SwaggerDoc("LibraryOpenAPISpecification", new Microsoft.OpenApi.Models.OpenApiInfo()
+                setupAction.SwaggerDoc("ExpensesTrackerOpenAPISpecification", new Microsoft.OpenApi.Models.OpenApiInfo()
                 {
-                    Title = "Expenses Traccker API",
+                    Title = "Expenses Tracker API",
                     Version = "1"
                 });
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                setupAction.IncludeXmlComments(xmlCommentsFullPath);
+
+                
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,6 +114,11 @@ namespace ExpensesTracker
 
             app.UseHttpsRedirection();
             app.UseSwagger();
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint("/swagger/ExpensesTrackerOpenAPISpecification/swagger.json", "Expenses Tracker API");
+                setupAction.RoutePrefix = "";
+            });
             app.UseAuthentication();
             app.UseMvc();
         }

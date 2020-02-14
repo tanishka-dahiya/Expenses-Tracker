@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "251365a427d908200b612923308f4d6bd424a31f"
+    "signature": "6af7a3a5f7e1f2c728e012dac4836f9d59502865"
   },
   "compilationOptions": {
     "defines": [
@@ -17,7 +17,7 @@
     "optimize": false,
     "keyFile": "",
     "emitEntryPoint": true,
-    "xmlDoc": false,
+    "xmlDoc": true,
     "debugType": "portable"
   },
   "targets": {
@@ -28,6 +28,7 @@
           "DataAccessLayer": "1.0.0",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.NETCore.App": "2.2.0",
@@ -71,6 +72,7 @@
           "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.0": {},
       "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {
@@ -610,6 +612,7 @@
         "dependencies": {
           "DataAccessLayer": "1.0.0",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.IdentityModel.Tokens": "5.3.0",
           "SharedDTO": "1.0.0",
           "Swashbuckle.AspNetCore": "5.0.0",
@@ -626,6 +629,7 @@
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "4.0.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.IdentityModel.Tokens": "5.3.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
@@ -644,6 +648,7 @@
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "4.0.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.2.0",
+          "Microsoft.AspNetCore.Mvc.Api.Analyzers": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.IdentityModel.Tokens": "5.3.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
@@ -3765,6 +3770,13 @@
       "sha512": "sha512-0hUKTfWl/m3Cqix5hdhwq5pPu+GGLO3me95gZtf8h9kOJZBJ2wSJhcbSfZ+jT6r9UtQ6EFhTTC5LgSeo5cCjhA==",
       "path": "automapper.extensions.microsoft.dependencyinjection/4.0.1",
       "hashPath": "automapper.extensions.microsoft.dependencyinjection.4.0.1.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Mvc.Api.Analyzers/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Fa+7EZgrtEbGe7ERADStu9pyC6kF3ZolCXDUXvGAWBeJHjpMmONqkn/ApQSdnsL94ZFDoZRdg0Z3gMPTBtUkPQ==",
+      "path": "microsoft.aspnetcore.mvc.api.analyzers/2.2.0",
+      "hashPath": "microsoft.aspnetcore.mvc.api.analyzers.2.2.0.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
       "type": "package",
