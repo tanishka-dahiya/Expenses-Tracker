@@ -10,9 +10,6 @@
             </summary>
             <param name="user">User Model that contains Username and Password  </param>
             <returns> Returns a Token</returns>
-            <remarks>{"UserName"="Tanishka" \
-            "Password"="123456789"}</remarks>
-            <response code="201">Returns Token</response>
         </member>
         <member name="M:ExpensesTracker.Controllers.UserController.DeleteUser">
             <summary>
@@ -30,9 +27,6 @@
             <param name="userName"> userName of the user</param>
             <param name="password">Password of that User</param>
             <returns>Token for Authentication further</returns>
-             <response code="200">Returns Token</response>
-             <response code="404">User Not Found</response>
-            
         </member>
     </members>
 </doc>

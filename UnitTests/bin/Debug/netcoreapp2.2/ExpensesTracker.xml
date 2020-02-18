@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExpensesTracker</name>
+    </assembly>
+    <members>
+        <member name="M:ExpensesTracker.Controllers.UserController.CreateUser(SharedDTO.Models.UserModel)">
+            <summary>
+            Create new User 
+            </summary>
+            <param name="user">User Model that contains Username and Password  </param>
+            <returns> Returns a Token</returns>
+        </member>
+        <member name="M:ExpensesTracker.Controllers.UserController.DeleteUser(System.Guid)">
+            <summary>
+            Delete a user
+            </summary>
+            <returns>"Successfully Deleted</returns>
+             <response code="200">Successfully Deleted</response>
+             <response code="404">User Not Found</response>
+             
+        </member>
+        <member name="M:ExpensesTracker.Controllers.UserController.AuthenticateUser(System.String,System.String)">
+            <summary>
+            Authenticate User with UserName and Password
+            </summary>
+            <param name="userName"> userName of the user</param>
+            <param name="password">Password of that User</param>
+            <returns>Token for Authentication further</returns>
+        </member>
+    </members>
+</doc>
