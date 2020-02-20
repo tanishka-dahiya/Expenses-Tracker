@@ -3,40 +3,35 @@ using DataAccessLayer.Contexts;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Services;
 using Microsoft.EntityFrameworkCore;
-using SharedDTO.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repository
 {
-    public class ExpensesDataRepository : IExpensesDataRepository 
+    public class ExpensesDataRepository : IExpensesDataService
     {
         private readonly ExpensesContext _context;
-        private readonly IMapper _mapper;
-        private readonly IUserValidationRepository _userValidationRepository;
+        private readonly IUserValidationService _userValidationRepository;
 
 
 
-        public ExpensesDataRepository(ExpensesContext context, IMapper mapper, IUserValidationRepository userValidationRepository)
+        public ExpensesDataRepository(ExpensesContext context, IUserValidationService userValidationRepository)
         {
             this._context = context ?? throw new ArgumentNullException(nameof(context));
-            _mapper = mapper;
             _userValidationRepository = userValidationRepository;
 
 
         }
 
         //return all expenses list of a user
-        public async Task<List<ExpensesModel>> GetExpensesAsync(Guid userId)
+        public async Task<List<Expense>> GetExpensesAsync(int userId)
         {
             try
             {
-               await _userValidationRepository.IsUserValid(userId);
-                var expensesList = await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
-                return _mapper.Map<List<ExpensesModel>>(expensesList);
+                await _userValidationRepository.IsUserValid(userId);
+                return await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -46,16 +41,15 @@ namespace DataAccessLayer.Repository
         }
 
         //create new expense
-        public async Task<ExpensesModel> CreateExpenseAsync(ExpensesModel newExpense)
+        public async Task<Expense> CreateExpenseAsync(Expense newExpense)
         {
             try
             {
+                newExpense.Date =  DateTime.Today;
                 await _userValidationRepository.IsUserValid(newExpense.UserId);
-                Expense createdExpese = _mapper.Map<Expense>(newExpense);
-                _context.Expenses.Add(createdExpese);
+                _context.Expenses.Add(newExpense);
                 await _context.SaveChangesAsync();
-                ExpensesModel savedExpense = _mapper.Map<ExpensesModel>(createdExpese);
-                return savedExpense;
+                return newExpense;
             }
             catch (Exception ex)
             {
@@ -65,19 +59,18 @@ namespace DataAccessLayer.Repository
         }
 
         //return expense by its id
-        public async Task<ExpensesModel> GetExpenseByIdAsync(Guid expenseId, Guid userId)
+        public async Task<Expense> GetExpenseByIdAsync(int expenseId, int userId)
         {
             try
             {
-               await _userValidationRepository.IsUserValid(userId);
+                await _userValidationRepository.IsUserValid(userId);
                 Expense expensesItem = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
                 if (expensesItem == null)
                 {
                     throw new Exception("Not found");
                 }
-                ExpensesModel Item = _mapper.Map<ExpensesModel>(expensesItem);
 
-                return Item;
+                return expensesItem;
             }
             catch (Exception ex)
             {
@@ -88,17 +81,17 @@ namespace DataAccessLayer.Repository
         }
 
         //delete a expense
-        public async Task<Boolean> DeleteExpenseByIdAsync(Guid expenseId, Guid userId)
+        public async Task<Boolean> DeleteExpenseByIdAsync(int expenseId, int userId)
         {
             try
             {
-               await _userValidationRepository.IsUserValid(userId);
-               Expense item = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
+                await _userValidationRepository.IsUserValid(userId);
+                Expense item = await _context.Expenses.FirstOrDefaultAsync(s => s.UserId == userId && s.ExpensesId == expenseId);
                 if (item == null)
                 {
                     throw new Exception("Not found");
                 }
-               _context.Expenses.Remove(item);
+                _context.Expenses.Remove(item);
                 await _context.SaveChangesAsync();
 
                 return true;
@@ -111,13 +104,12 @@ namespace DataAccessLayer.Repository
         }
 
         //edit a expense
-        public async Task<ExpensesModel> EditExpenseByIdAsync(ExpensesModel item)
+        public async Task<Expense> EditExpenseByIdAsync(Expense item)
         {
             try
             {
                 await _userValidationRepository.IsUserValid(item.UserId);
-                Expense expenseItem = _mapper.Map<Expense>(item);
-                _context.Entry(expenseItem).State = EntityState.Modified;
+                _context.Entry(item).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return item;
             }
@@ -130,11 +122,11 @@ namespace DataAccessLayer.Repository
         }
 
         //return overall amount of expenses of a user
-        public async Task<float> GetExpensesAmountAsync(Guid userId)
+        public async Task<float> GetExpensesAmountAsync(int userId)
         {
             try
             {
-                 await _userValidationRepository.IsUserValid(userId);
+                await _userValidationRepository.IsUserValid(userId);
                 float expensesAmount = _context.Expenses.Where(s => s.UserId == userId).Sum(i => i.Price);
 
                 return expensesAmount;
@@ -148,7 +140,7 @@ namespace DataAccessLayer.Repository
 
 
         //delete all expenses of a user
-        public async void DeleteAllExpensesOfUser(Guid userId)
+        public async void DeleteAllExpensesOfUser(int userId)
         {
             try
             {
@@ -172,7 +164,7 @@ namespace DataAccessLayer.Repository
             }
 
         }
-            
+
 
 
     }

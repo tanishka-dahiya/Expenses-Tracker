@@ -1,27 +1,32 @@
 ﻿using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using BusinessLayer.Services;
 using ExpensesTracker.ExceptionHandler;
+using ExpensesTracker.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SharedDTO.Models;
+using Microsoft.Extensions.Logging;
+using SharedDTOs.DTOs;
 
 namespace ExpensesTracker.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository userBusinessLogic;
+        private readonly IUserService userBusinessLogic;
         private readonly IExceptionHandler _exceptionHandler;
+        private readonly IMapper _mapper;
+        private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
-        public UserController(IUserRepository userBusinessLogic, IExceptionHandler exceptionHandler)
+        public UserController(IUserService userBusinessLogic, IExceptionHandler exceptionHandler, IMapper mapper, ILogger<UserController> logger)
         {
             this.userBusinessLogic = userBusinessLogic?? throw new ArgumentNullException(nameof(userBusinessLogic));
             this._exceptionHandler = exceptionHandler;
+            this._mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -31,16 +36,20 @@ namespace ExpensesTracker.Controllers
         /// <returns> Returns a Token</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateUser([FromBody]UserModel user)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CreateUser([FromBody]UserViewModel user)
         {
             try
             {
-                UserModel createdUser = await userBusinessLogic.CreatedUserAsync(user);
-                return Created("Successfully Created", createdUser.Token);
+                UserDTO userDTO = _mapper.Map<UserDTO>(user);
+                UserDTO createdUserDTO = await userBusinessLogic.CreatedUserAsync(userDTO);
+                UserViewModel userViewModel = _mapper.Map<UserViewModel>(createdUserDTO);
+                _logger.LogInformation("Log message in the About() method");
+                return Created("Successfully Created", userViewModel);
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return _exceptionHandler.HandleError(ex.Message);
             }
         }
@@ -49,24 +58,21 @@ namespace ExpensesTracker.Controllers
         /// Delete a user
         /// </summary>
         /// <returns>"Successfully Deleted</returns>
-        ///  <response code="200">Successfully Deleted</response>
-        ///  <response code="404">User Not Found</response>
-        ///  
         [Authorize]
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-
-        public async Task<IActionResult> DeleteUser()
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteUser([FromQuery]int userId)
         {
             try
-            {
-                Guid userId= Guid.Parse(this.User.FindFirst(ClaimTypes.Name).Value);
+            { 
                 await userBusinessLogic.DeleteUserAsync(userId);
                 return Ok("Successfully Deleted");
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return _exceptionHandler.HandleError(ex.Message);
             }
         }
@@ -84,11 +90,14 @@ namespace ExpensesTracker.Controllers
         {
             try
             {
-                string token = await userBusinessLogic.AuthenticateUserAsync(userName, password);
-                return Ok(token);
+                UserDTO authenticatedUser = await userBusinessLogic.AuthenticateUserAsync(userName, password);
+                UserViewModel userViewModel = _mapper.Map<UserViewModel>(authenticatedUser);
+
+                return Ok(userViewModel);
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return _exceptionHandler.HandleError(ex.Message);
 
             }

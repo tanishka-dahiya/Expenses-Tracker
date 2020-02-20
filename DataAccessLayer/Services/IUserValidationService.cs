@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Services
 {
-    public interface IUserValidationRepository
+    public interface IUserValidationService
     {
-        Task IsUserValid(Guid userId);
+        Task IsUserValid(int userId);
     }
 }

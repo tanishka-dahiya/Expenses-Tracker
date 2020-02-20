@@ -11,6 +11,9 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactoryContentRootAttribute("BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "c:\\Users\\tanishkadahiya\\source\\repos\\ExpensesTracker\\BusinessLayer", "BusinessLayer.csproj", "0")]
+[assembly: Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactoryContentRootAttribute("DataAccessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "c:\\Users\\tanishkadahiya\\source\\repos\\ExpensesTracker\\DataAccessLayer", "DataAccessLayer.csproj", "0")]
+[assembly: Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactoryContentRootAttribute("SharedDTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "c:\\Users\\tanishkadahiya\\source\\repos\\ExpensesTracker\\SharedDTO", "SharedDTO.csproj", "0")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExpensesTracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]

@@ -1,32 +1,47 @@
 ﻿
+using AutoMapper;
 using BusinessLayer.Services;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SharedDTO.Models;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using SharedDTO.Helpers;
+using SharedDTOs.DTOs;
 using System;
-using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLayer.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserService
     {
 
-        private readonly IUserDataRepository UserDataLayerLogic;
+        private readonly IUserDataService UserDataLayerLogic;
+        private readonly IMapper _mapper;
+        private readonly AppSetting _appSettings;
 
-        public UserRepository(IUserDataRepository userDataLayerLogic)
+
+
+        public UserRepository(IUserDataService userDataLayerLogic, IMapper mapper, IOptions<AppSetting> appSettings)
         {
             UserDataLayerLogic = userDataLayerLogic ?? throw new ArgumentNullException(nameof(userDataLayerLogic));
+            _mapper = mapper;
+            _appSettings = appSettings.Value;
         }
 
         //create a user
-        public async Task<UserModel> CreatedUserAsync(UserModel user)
+        public async Task<UserDTO> CreatedUserAsync(UserDTO user)
         {
             try
             {
-                return await UserDataLayerLogic.CreatedUserAsync(user);
+                User userEntity = _mapper.Map<User>(user);
+                User createdUser= await UserDataLayerLogic.CreatedUserAsync(userEntity);
+                UserDTO createduserDTO = _mapper.Map<UserDTO>(createdUser);
+                createduserDTO.Token = GenerateToken(createduserDTO.UserId);
+                createduserDTO.Password = null;
+                return createduserDTO;
             }
 
             catch (Exception ex)
@@ -36,11 +51,15 @@ namespace BusinessLayer.Repository
         }
 
         //authenticate a user with username and password
-        public async Task<string> AuthenticateUserAsync(string username, string password)
+        public async Task<UserDTO> AuthenticateUserAsync(string username, string password)
         {
             try
             {
-                return await UserDataLayerLogic.AuthenticateUserAsync(username, password);
+                User authenticatedUserEntity= await UserDataLayerLogic.AuthenticateUserAsync(username, password);
+                UserDTO createduserDTO = _mapper.Map<UserDTO>(authenticatedUserEntity);
+                createduserDTO.Token = GenerateToken(createduserDTO.UserId);
+                createduserDTO.Password = null;
+                return createduserDTO;
             }
 
             catch (Exception ex)
@@ -50,7 +69,7 @@ namespace BusinessLayer.Repository
         }
 
         //delete a user 
-        public async Task<Boolean> DeleteUserAsync(Guid userId)
+        public async Task<Boolean> DeleteUserAsync(int userId)
         {
             try
             {
@@ -61,6 +80,33 @@ namespace BusinessLayer.Repository
             {
                 throw ex;
             }
+        }
+
+        //Generate Token
+        private string GenerateToken(int userId)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                    new Claim(ClaimTypes.Name, userId.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddMinutes(45),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                string Token = tokenHandler.WriteToken(token);
+                return Token;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 

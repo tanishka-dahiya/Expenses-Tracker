@@ -1,29 +1,33 @@
-﻿using BusinessLayer.Services;
-using DataAccessLayer.Contexts;
+﻿using AutoMapper;
+using BusinessLayer.Services;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Services;
-using SharedDTO.Models;
+using SharedDTO.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLayer.Repository
 {
-    public class ExpensesRepository : IExpensesRepository
+    public class ExpensesRepository : IExpensesService
     {
-        private readonly IExpensesDataRepository expensesDataLayerLogic;
+        private readonly IExpensesDataService expensesDataLayerLogic;
+        private readonly IMapper _mapper;
 
-        public ExpensesRepository(IExpensesDataRepository expensesDataLayerLogic)
+
+        public ExpensesRepository(IExpensesDataService expensesDataLayerLogic, IMapper mapper)
         {
             this.expensesDataLayerLogic = expensesDataLayerLogic ?? throw new ArgumentNullException(nameof(expensesDataLayerLogic));
+            _mapper = mapper;
         }
 
         //get all expenses of a user
-        public async Task<List<ExpensesModel>> GetExpensesAsync(Guid userId)
+        public async Task<List<ExpensesDTO>> GetExpensesAsync(int userId)
         {
             try
             {
-                return await expensesDataLayerLogic.GetExpensesAsync(userId);
+                List<Expense> expenseList=await expensesDataLayerLogic.GetExpensesAsync(userId);
+                return _mapper.Map<List<ExpensesDTO>>(expenseList);
             }
 
             catch (Exception ex)
@@ -33,11 +37,13 @@ namespace BusinessLayer.Repository
         }
 
         //create expense of a user
-        public async Task<ExpensesModel> CreateExpenseAsync(ExpensesModel newExpense)
+        public async Task<ExpensesDTO> CreateExpenseAsync(ExpensesDTO newExpense)
         {
             try
             {
-                return await expensesDataLayerLogic.CreateExpenseAsync(newExpense);
+                Expense expense = _mapper.Map<Expense>(newExpense);
+                Expense newExpenseEntity= await expensesDataLayerLogic.CreateExpenseAsync(expense);
+                return _mapper.Map<ExpensesDTO>(newExpenseEntity);
             }
 
             catch (Exception ex)
@@ -47,11 +53,12 @@ namespace BusinessLayer.Repository
         }
 
         //get expense by its id
-        public async Task<ExpensesModel> GetExpenseByIdAsync(Guid expenseId, Guid userId)
+        public async Task<ExpensesDTO> GetExpenseByIdAsync(int expenseId, int userId)
         {
             try
             {
-                return await expensesDataLayerLogic.GetExpenseByIdAsync(expenseId, userId);
+                Expense newExpenseEntity = await expensesDataLayerLogic.GetExpenseByIdAsync(expenseId, userId);
+                return _mapper.Map<ExpensesDTO>(newExpenseEntity);
             }
 
             catch (Exception ex)
@@ -61,7 +68,7 @@ namespace BusinessLayer.Repository
         }
 
         //delete a expense
-        public async Task<Boolean> DeleteExpenseByIdAsync(Guid expenseId, Guid userId)
+        public async Task<Boolean> DeleteExpenseByIdAsync(int expenseId, int userId)
         {
             try
             {
@@ -75,11 +82,13 @@ namespace BusinessLayer.Repository
         }
 
         //edit a expense
-        public async Task<ExpensesModel> EditExpenseByIdAsync(ExpensesModel item)
+        public async Task<ExpensesDTO> EditExpenseByIdAsync(ExpensesDTO item)
         {
             try
             {
-                return await expensesDataLayerLogic.EditExpenseByIdAsync(item);
+                Expense expense = _mapper.Map<Expense>(item);
+                Expense newExpenseEntity= await expensesDataLayerLogic.EditExpenseByIdAsync(expense);
+                return _mapper.Map<ExpensesDTO>(newExpenseEntity);
             }
 
             catch (Exception ex)
@@ -89,7 +98,7 @@ namespace BusinessLayer.Repository
         }
 
         //get total amount on expenses of a user
-        public Task<float> GetExpensesAmountAsync(Guid userId)
+        public Task<float> GetExpensesAmountAsync(int userId)
         {
             try
             {

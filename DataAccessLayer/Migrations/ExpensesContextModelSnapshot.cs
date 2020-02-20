@@ -21,8 +21,9 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.Expense", b =>
                 {
-                    b.Property<Guid>("ExpensesId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("ExpensesId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date");
 
@@ -30,7 +31,7 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("ExpensesId");
 
@@ -39,8 +40,9 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Password")
                         .IsRequired();

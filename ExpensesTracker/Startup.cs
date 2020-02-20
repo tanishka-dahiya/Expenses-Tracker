@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -18,9 +17,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SharedDTO.Helpers;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ExpensesTracker
 {
@@ -45,12 +44,12 @@ namespace ExpensesTracker
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
            
             //adding repository
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IExpensesDataRepository, ExpensesDataRepository>();
-            services.AddScoped<IUserDataRepository, UserDataRepository>();
-            services.AddScoped<IExpensesRepository, ExpensesRepository>();
+            services.AddScoped<IUserService, UserRepository>();
+            services.AddScoped<IExpensesDataService, ExpensesDataRepository>();
+            services.AddScoped<IUserDataService, UserDataRepository>();
+            services.AddScoped<IExpensesService, ExpensesRepository>();
             services.AddScoped<IExceptionHandler, ExceptionFilter>();
-            services.AddScoped<IUserValidationRepository, UserValidationRepository>();
+            services.AddScoped<IUserValidationService, UserValidationRepository>();
 
 
             //adding AutoMapper
@@ -62,7 +61,7 @@ namespace ExpensesTracker
 
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSetting>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes("This is a Secret");
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -99,7 +98,7 @@ namespace ExpensesTracker
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -111,7 +110,7 @@ namespace ExpensesTracker
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            loggerFactory.AddFile("Logs/mylog-{Date}.txt");
             app.UseHttpsRedirection();
             app.UseSwagger();
             app.UseSwaggerUI(setupAction =>
@@ -121,6 +120,7 @@ namespace ExpensesTracker
             });
             app.UseAuthentication();
             app.UseMvc();
+
         }
     }
 }

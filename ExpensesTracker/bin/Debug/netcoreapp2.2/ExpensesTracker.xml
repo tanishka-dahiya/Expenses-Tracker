@@ -4,21 +4,63 @@
         <name>ExpensesTracker</name>
     </assembly>
     <members>
-        <member name="M:ExpensesTracker.Controllers.UserController.CreateUser(SharedDTO.Models.UserModel)">
+        <member name="M:ExpensesTracker.Controllers.ExpensesController.GetExpenses(System.Int32)">
+            <summary>
+            Get all Expenses of a user
+            </summary>
+            <returns> list of ExpensesViewModel</returns>
+        </member>
+        <member name="M:ExpensesTracker.Controllers.ExpensesController.CreateExpense(System.Int32,ExpensesTracker.ViewModels.ExpensesViewModel)">
+            <summary>
+            create  new expense of a user
+            </summary>
+            <param name="userId">user Id of the user of type integer</param>
+            <param name="newExpense">ExpesesViewModel</param>
+            <returns>created Expense and Location where expense is Created</returns>
+        </member>
+        <member name="M:ExpensesTracker.Controllers.ExpensesController.GetExpenseById(System.Int32,System.Int32)">
+            <summary>
+            get expense by its id
+            </summary>
+            <param name="expenseId"> expense id of typeinteger </param>
+            <param name="userId">user id of type integer</param>
+            <returns> expensesViewModel</returns>
+        </member>
+        <member name="M:ExpensesTracker.Controllers.ExpensesController.DeleteExpenseById(System.Int32,System.Int32)">
+            <summary>
+            delete a expense by its Id
+            </summary>
+            <param name="expenseId"></param>
+            <param name="userId"></param>
+            <returns> message "Successfully Deleted"</returns>
+        </member>
+        <member name="M:ExpensesTracker.Controllers.ExpensesController.EditExpenseById(System.Int32,ExpensesTracker.ViewModels.ExpensesViewModel)">
+            <summary>
+            Edit an expense by its Id
+            </summary>
+            <param name="userId"></param>
+            <param name="item"></param>
+            <returns>Edited Expense view Model</returns>
+        </member>
+        <member name="M:ExpensesTracker.Controllers.ExpensesController.GetExpensesAmount(System.Int32)">
+            <summary>
+            get total amount spend on Expenses of a user
+            </summary>
+            <param name="userId">int userId</param>
+            <returns>amount of type float</returns>
+        </member>
+        <member name="M:ExpensesTracker.Controllers.UserController.CreateUser(ExpensesTracker.ViewModels.UserViewModel)">
             <summary>
             Create new User 
             </summary>
             <param name="user">User Model that contains Username and Password  </param>
             <returns> Returns a Token</returns>
         </member>
-        <member name="M:ExpensesTracker.Controllers.UserController.DeleteUser">
+        <member name="M:ExpensesTracker.Controllers.UserController.DeleteUser(System.Int32)">
             <summary>
             Delete a user
             </summary>
             <returns>"Successfully Deleted</returns>
-             <response code="200">Successfully Deleted</response>
-             <response code="404">User Not Found</response>
-             
         </member>
         <member name="M:ExpensesTracker.Controllers.UserController.AuthenticateUser(System.String,System.String)">
             <summary>

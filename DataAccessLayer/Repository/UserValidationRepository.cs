@@ -2,13 +2,11 @@
 using DataAccessLayer.Entities;
 using DataAccessLayer.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repository
 {
-    public class UserValidationRepository:IUserValidationRepository
+    public class UserValidationRepository:IUserValidationService
     {
 
         private readonly ExpensesContext _context;
@@ -22,7 +20,7 @@ namespace DataAccessLayer.Repository
         }
 
         //If user exists
-        public async Task IsUserValid(Guid userId)
+        public async Task IsUserValid(int userId)
         {
             try
             {
